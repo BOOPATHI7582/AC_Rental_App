@@ -249,7 +249,7 @@ class PdfService {
       'Item',
       'Unit',
       'Ton/Pce',
-      'Price/Unit',
+      'Price',
       'Amount',
       'IGST Amt ${_fmtNum(inv.items.isNotEmpty ? inv.items.first.igstPercent : 0)}%',
       'Total',

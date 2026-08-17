@@ -9,16 +9,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   cupertino_icons: ^1.0.6
 
-  # Local persistence (clients, invoices, settings stored as JSON)
+  # Local persistence
   shared_preferences: ^2.2.2
 
   # PDF generation + share/print
   pdf: ^3.10.7
   printing: ^5.11.1
 
-  # Pick logo / signature images from gallery or camera
+  # Pick logo / signature images
   image_picker: ^1.0.7
 
   # Save files to app storage
@@ -27,16 +28,23 @@ dependencies:
   # Dates, number formatting
   intl: ^0.19.0
 
-  # Unique ids for clients/invoices
+  # Unique ids
   uuid: ^4.3.3
 
-  # HTTP calls to MongoDB Atlas (login/register + invoice cloud sync)
+  # HTTP calls
   http: ^1.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
   flutter_lints: ^3.0.1
 
 flutter:
   uses-material-design: true
+
+  # ==========================================
+  # APP ASSETS
+  # ==========================================
+  assets:
+    - assets/images/elite_air_comfort_logo.png

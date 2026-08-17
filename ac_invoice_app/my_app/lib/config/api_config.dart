@@ -8,6 +8,5 @@
 ///  - Deployed (e.g. Render):                            'https://ac-invoice-api.onrender.com'
 // static const String baseUrl = 'http://localhost:5000';
 class ApiConfig {
-  static const String baseUrl =
-      'https://ac-rental-o76n1oyo3-boopathi7582s-projects.vercel.app';
+  static const String baseUrl = 'https://ac-rental-app-6gg7.vercel.app';
 }

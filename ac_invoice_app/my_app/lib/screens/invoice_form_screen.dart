@@ -19,7 +19,7 @@ class InvoiceFormScreen extends StatefulWidget {
 
 class _ItemRow {
   final itemNameCtrl = TextEditingController();
-  final unitCtrl = TextEditingController(text: 'Nos');
+  final unitCtrl = TextEditingController(text: '-');
   final qtyCtrl = TextEditingController(text: '1');
   final priceCtrl = TextEditingController();
   final igstCtrl = TextEditingController(text: '18');
@@ -34,7 +34,8 @@ class _ItemRow {
     igstCtrl.text = _trim(it.igstPercent);
   }
 
-  static String _trim(double v) => v == v.roundToDouble() ? v.toInt().toString() : v.toString();
+  static String _trim(double v) =>
+      v == v.roundToDouble() ? v.toInt().toString() : v.toString();
 
   double get qty => double.tryParse(qtyCtrl.text) ?? 0;
   double get price => double.tryParse(priceCtrl.text) ?? 0;
@@ -44,12 +45,12 @@ class _ItemRow {
   double get total => taxable + igstAmount;
 
   InvoiceItem toItem() => InvoiceItem(
-        itemName: itemNameCtrl.text.trim(),
-        unit: unitCtrl.text.trim(),
-        quantity: qty,
-        price: price,
-        igstPercent: igst,
-      );
+    itemName: itemNameCtrl.text.trim(),
+    unit: unitCtrl.text.trim(),
+    quantity: qty,
+    price: price,
+    igstPercent: igst,
+  );
 
   void dispose() {
     itemNameCtrl.dispose();
@@ -101,7 +102,8 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
           _rows.add(_ItemRow.fromItem(it));
         }
       } else {
-        _invoiceNoCtrl.text = 'INV-${settings.nextInvoiceNumber.toString().padLeft(4, '0')}';
+        _invoiceNoCtrl.text =
+            'INV-${settings.nextInvoiceNumber.toString().padLeft(4, '0')}';
         _rows.add(_ItemRow());
       }
       _loading = false;
@@ -164,7 +166,9 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
       );
       return;
     }
-    final validRows = _rows.where((r) => r.itemNameCtrl.text.trim().isNotEmpty).toList();
+    final validRows = _rows
+        .where((r) => r.itemNameCtrl.text.trim().isNotEmpty)
+        .toList();
     if (validRows.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Add at least one service/item')),
@@ -193,7 +197,9 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
     if (!mounted) return;
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => InvoiceViewScreen(invoiceId: invoice.id)),
+      MaterialPageRoute(
+        builder: (_) => InvoiceViewScreen(invoiceId: invoice.id),
+      ),
     );
   }
 
@@ -210,10 +216,14 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
   @override
   Widget build(BuildContext context) {
     if (_loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator(color: Colors.black)));
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator(color: Colors.black)),
+      );
     }
     return Scaffold(
-      appBar: AppBar(title: Text(widget.existing == null ? 'New Invoice' : 'Edit Invoice')),
+      appBar: AppBar(
+        title: Text(widget.existing == null ? 'New Invoice' : 'Edit Invoice'),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -226,7 +236,12 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
                   isExpanded: true,
                   decoration: const InputDecoration(labelText: 'Select Client'),
                   items: _clients
-                      .map((c) => DropdownMenuItem(value: c, child: Text(c.name, overflow: TextOverflow.ellipsis)))
+                      .map(
+                        (c) => DropdownMenuItem(
+                          value: c,
+                          child: Text(c.name, overflow: TextOverflow.ellipsis),
+                        ),
+                      )
                       .toList(),
                   onChanged: (c) => setState(() => _selectedClient = c),
                 ),
@@ -267,8 +282,14 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
                 child: InkWell(
                   onTap: _pickRentalStart,
                   child: InputDecorator(
-                    decoration: const InputDecoration(labelText: 'Rental Period From'),
-                    child: Text(_rentalStart != null ? DateFormat('dd-MM-yyyy').format(_rentalStart!) : '—'),
+                    decoration: const InputDecoration(
+                      labelText: 'Rental Period From',
+                    ),
+                    child: Text(
+                      _rentalStart != null
+                          ? DateFormat('dd-MM-yyyy').format(_rentalStart!)
+                          : '—',
+                    ),
                   ),
                 ),
               ),
@@ -277,8 +298,14 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
                 child: InkWell(
                   onTap: _pickRentalEnd,
                   child: InputDecorator(
-                    decoration: const InputDecoration(labelText: 'Rental Period To'),
-                    child: Text(_rentalEnd != null ? DateFormat('dd-MM-yyyy').format(_rentalEnd!) : '—'),
+                    decoration: const InputDecoration(
+                      labelText: 'Rental Period To',
+                    ),
+                    child: Text(
+                      _rentalEnd != null
+                          ? DateFormat('dd-MM-yyyy').format(_rentalEnd!)
+                          : '—',
+                    ),
                   ),
                 ),
               ),
@@ -292,7 +319,10 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
             child: TextButton.icon(
               onPressed: () => setState(() => _rows.add(_ItemRow())),
               icon: const Icon(Icons.add, color: Colors.black),
-              label: const Text('Add Row', style: TextStyle(color: Colors.black)),
+              label: const Text(
+                'Add Row',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ),
           const SizedBox(height: 16),
@@ -323,9 +353,12 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
   }
 
   Widget _sectionTitle(String title) => Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-      );
+    padding: const EdgeInsets.only(bottom: 8),
+    child: Text(
+      title,
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+    ),
+  );
 
   Widget _summaryRow(String label, double value, {bool bold = false}) {
     final style = TextStyle(
@@ -370,45 +403,65 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
           ],
         ),
         for (int i = 0; i < _rows.length; i++)
-          TableRow(children: [
-            _cellField(_rows[i].itemNameCtrl, hint: 'e.g. AC Tower 10 Ton'),
-            _cellField(_rows[i].unitCtrl, hint: 'Nos'),
-            _cellField(_rows[i].qtyCtrl, hint: '1', numeric: true),
-            _cellField(_rows[i].priceCtrl, hint: '2000', numeric: true),
-            _cellField(_rows[i].igstCtrl, hint: '18', numeric: true),
-            Padding(
-              padding: const EdgeInsets.all(2),
-              child: IconButton(
-                icon: const Icon(Icons.close, size: 18, color: Colors.black54),
-                onPressed: _rows.length == 1
-                    ? null
-                    : () => setState(() {
+          TableRow(
+            children: [
+              _cellField(_rows[i].itemNameCtrl, hint: 'e.g. AC Tower 10 Ton'),
+              _cellField(_rows[i].unitCtrl, hint: 'Nos'),
+              _cellField(_rows[i].qtyCtrl, hint: '1', numeric: true),
+              _cellField(_rows[i].priceCtrl, hint: '2000', numeric: true),
+              _cellField(_rows[i].igstCtrl, hint: '18', numeric: true),
+              Padding(
+                padding: const EdgeInsets.all(2),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    size: 18,
+                    color: Colors.black54,
+                  ),
+                  onPressed: _rows.length == 1
+                      ? null
+                      : () => setState(() {
                           _rows[i].dispose();
                           _rows.removeAt(i);
                         }),
+                ),
               ),
-            ),
-          ]),
+            ],
+          ),
         // Computed amount / igst amount / total row summary per item, shown below each row's inputs
         for (int i = 0; i < _rows.length; i++)
-          TableRow(children: [
-            _amountLabelCell('Amount: Rs. ${_rows[i].taxable.toStringAsFixed(2)}'),
-            const SizedBox.shrink(),
-            const SizedBox.shrink(),
-            _amountLabelCell('IGST: Rs. ${_rows[i].igstAmount.toStringAsFixed(2)}'),
-            _amountLabelCell('Total: Rs. ${_rows[i].total.toStringAsFixed(2)}'),
-            const SizedBox.shrink(),
-          ]),
+          TableRow(
+            children: [
+              _amountLabelCell(
+                'Amount: Rs. ${_rows[i].taxable.toStringAsFixed(2)}',
+              ),
+              const SizedBox.shrink(),
+              const SizedBox.shrink(),
+              _amountLabelCell(
+                'IGST: Rs. ${_rows[i].igstAmount.toStringAsFixed(2)}',
+              ),
+              _amountLabelCell(
+                'Total: Rs. ${_rows[i].total.toStringAsFixed(2)}',
+              ),
+              const SizedBox.shrink(),
+            ],
+          ),
       ],
     );
   }
 
-  Widget _cellField(TextEditingController ctrl, {String hint = '', bool numeric = false}) {
+  Widget _cellField(
+    TextEditingController ctrl, {
+    String hint = '',
+    bool numeric = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
       child: TextField(
         controller: ctrl,
-        keyboardType: numeric ? const TextInputType.numberWithOptions(decimal: true) : TextInputType.text,
+        keyboardType: numeric
+            ? const TextInputType.numberWithOptions(decimal: true)
+            : TextInputType.text,
         style: const TextStyle(fontSize: 12),
         decoration: InputDecoration(
           hintText: hint,
@@ -422,9 +475,12 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
   }
 
   Widget _amountLabelCell(String text) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-        child: Text(text, style: const TextStyle(fontSize: 10, color: Colors.black54)),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+    child: Text(
+      text,
+      style: const TextStyle(fontSize: 10, color: Colors.black54),
+    ),
+  );
 }
 
 class _HeaderCell extends StatelessWidget {
@@ -435,7 +491,10 @@ class _HeaderCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-      child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+      child: Text(
+        text,
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
+      ),
     );
   }
 }
